@@ -4,9 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:WpfApplication1.ViewModels"
+             xmlns:views="clr-namespace:WpfApplication1.Views"
+             xmlns:models="clr-namespace:WpfApplication1.Models"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" 
              d:DataContext="{d:DesignInstance viewModels:RiskyUnsettledBetsViewModel}">
+    
+    <UserControl.Resources>
+        <views:RiskyUnsettledBetSeverityConverter x:Key="RiskyUnsettledBetSeverityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -14,10 +20,14 @@
         </Grid.ColumnDefinitions>
         
         <ListBox ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" />
-        
-        <DataGrid Grid.Column="1"  ItemsSource="{Binding CustomerBets}" AutoGenerateColumns="False">
+
+        <DataGrid 
+            Grid.Column="1" 
+            ItemsSource="{Binding CustomerBets}"
+            AutoGenerateColumns="False">
+            
             <DataGrid.Columns>
-                <DataGridTextColumn 
+                <DataGridTextColumn
                     Header="Event"
                     Binding="{Binding EventCode}"/>
                 
@@ -32,6 +42,17 @@
                 <DataGridTextColumn 
                     Header="Win"
                     Binding="{Binding WinAmount}"/>
+                
+                <DataGridTemplateColumn 
+                    Header="Risk Severity">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="models:CustomerBet">
+                            <Border Background="{Binding RiskyUnsettledBetSeverity, Converter={StaticResource RiskyUnsettledBetSeverityConverter}}" >
+                                <TextBlock Text="{Binding RiskyUnsettledBetSeverity}" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid> 
                 

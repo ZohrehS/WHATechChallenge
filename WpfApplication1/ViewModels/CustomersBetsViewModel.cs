@@ -90,7 +90,7 @@ namespace WpfApplication1.ViewModels
         protected virtual void LoadKeyedCustomersData()
         {
             List<CustomerBet> list = CsvObjectReader.GetCustomerBets(DataSourceFilePath);
-            KeyedCustomersData = list.GroupBy(i => i.CustomerId).ToDictionary(i => i.Key, i => i.ToList());
+            KeyedCustomersData = list.OrderBy(i => i.CustomerId).GroupBy(i => i.CustomerId).ToDictionary(i => i.Key, i => i.ToList());
         }
         #endregion
     }

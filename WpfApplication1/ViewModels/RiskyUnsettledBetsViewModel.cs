@@ -61,14 +61,36 @@ namespace WpfApplication1.ViewModels
                 List<CustomerBet> customerItems = KeyedCustomersData[SelectedCustomer];
 
                 var average = customerItems.Sum(i => i.StakeAmount) / customerItems.Count;
+                customerItems.ForEach(cb =>
+                {
+                    if (cb.WinAmount > 0.6m * cb.StakeAmount)
+                    {
+                        cb.RiskyUnsettledBetSeverity = RiskSeverity.Risky;
+                    }
+                    if (cb.StakeAmount > 10 * average)
+                    {
+                        cb.RiskyUnsettledBetSeverity = RiskSeverity.Unusual;
+                    }
+                    if (cb.StakeAmount > 30 * average)
+                    {
+                        cb.RiskyUnsettledBetSeverity = RiskSeverity.HighlyUnusual;
+                    }
+                    if (cb.WinAmount >= 1000m)
+                    {
+                        cb.RiskyUnsettledBetSeverity = RiskSeverity.HighWonAmount;
+                    }
+                });
+                
                 List<CustomerBet> riskyCustomerBets = (from cb in customerItems
-                                                          where cb.WinAmount > 0.6m * cb.StakeAmount ||
-                                                                cb.StakeAmount > average ||
-                                                                cb.WinAmount >= 1000m
-                                                          select cb).ToList();
+                                                       where cb.WinAmount > 0.6m * cb.StakeAmount ||
+                                                             cb.StakeAmount > 10 * average ||
+                                                             cb.StakeAmount > 30 * average ||
+                                                             cb.WinAmount >= 1000m
+                                                       select cb).ToList();
 
                 riskyCustomerBets.ForEach(CustomerBets.Add);
             }
+
         }
         #endregion
 

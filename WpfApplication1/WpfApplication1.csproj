@@ -54,9 +54,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\NotificationObject.cs" />
+    <Compile Include="Models\RiskSeverity.cs" />
     <Compile Include="ViewModels\CustomersBetsViewModel.cs" />
     <Compile Include="ViewModels\UnusualSettledBetsViewModel.cs" />
     <Compile Include="ViewModels\RiskyUnsettledBetsViewModel.cs" />
+    <Compile Include="Views\RiskyUnsettledBetSeverityConverter.cs" />
     <Compile Include="Views\RiskyUnsettledBetsView.xaml.cs">
       <DependentUpon>RiskyUnsettledBetsView.xaml</DependentUpon>
     </Compile>

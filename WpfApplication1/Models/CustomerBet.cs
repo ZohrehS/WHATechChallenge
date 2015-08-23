@@ -14,6 +14,8 @@ namespace WpfApplication1.Models
         private int _participantCode;
         private decimal _stakeAmount;
         private decimal _winAmount;
+        private RiskSeverity _riskyUnsettledBetSeverity;
+
         #endregion
 
         #region Properties
@@ -94,6 +96,19 @@ namespace WpfApplication1.Models
             {
                 _winAmount = value;
                 OnPropertyChanged("WinAmount");                          
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the risk level of an unsettled bet.
+        /// </summary>
+        public RiskSeverity RiskyUnsettledBetSeverity
+        {
+            get { return _riskyUnsettledBetSeverity; }
+            set
+            {
+                _riskyUnsettledBetSeverity = value;
+                OnPropertyChanged("RiskyUnsettledBetSeverity");
             }
         }
 
