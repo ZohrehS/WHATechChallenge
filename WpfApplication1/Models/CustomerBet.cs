@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using WpfApplication1.Annotations;
+﻿using System.ComponentModel;
 
 namespace WpfApplication1.Models
 {
     /// <summary>
     /// Provides a model for customer bets history.
     /// </summary>
-    public class CustomerBet :INotifyPropertyChanged
+    public class CustomerBet : NotificationObject
     {
         #region Fields
-        public event PropertyChangedEventHandler PropertyChanged;
         private CustomerBetType _type;
         private int _customerId;
         private int _eventCode;
         private int _participantCode;
-
+        private decimal _stakeAmount;
+        private decimal _winAmount;
         #endregion
 
         #region Properties
@@ -76,34 +67,36 @@ namespace WpfApplication1.Models
             set
             {
                 _participantCode = value;
-                OnPropertyChanged("EventCode");                                
+                OnPropertyChanged("ParticipantCode");                                
             }
         }
 
         /// <summary>
         /// Gets or sets the bet amount.
         /// </summary>
-        public decimal StakeAmount { get; set; }
-        
+        public decimal StakeAmount
+        {
+            get { return _stakeAmount; }
+            set
+            {
+                _stakeAmount = value;
+                OnPropertyChanged("StakeAmount");          
+            }
+        }
+
         /// <summary>
         /// Gets or sets the amount to win or the amount won.
         /// </summary>
-        public decimal WinAmount { get; set; }
-        #endregion
-
-        #region Protected Methods
-        /// <summary>
-        /// Runs when a property is changed.
-        /// </summary>
-        /// <param name="propertyName">The name of property.</param>
-        protected virtual void OnPropertyChanged(string propertyName = null)
+        public decimal WinAmount
         {
-            var handler = PropertyChanged;
-            if (handler != null)
+            get { return _winAmount; }
+            set
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                _winAmount = value;
+                OnPropertyChanged("WinAmount");                          
             }
         }
+
         #endregion
     }
 }
