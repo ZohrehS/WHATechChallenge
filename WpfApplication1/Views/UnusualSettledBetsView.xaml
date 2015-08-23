@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfApplication1.Views.UnusualSettledBets"
+﻿<UserControl x:Class="WpfApplication1.Views.UnusualSettledBetsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,12 +8,15 @@
              d:DesignHeight="300" d:DesignWidth="300" 
              d:DataContext="{d:DesignInstance viewModels:UnusualSettledBetsViewModel}">
     <Grid>
-        <DataGrid ItemsSource="{Binding CustomerBets}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <ListBox ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" />
+        
+        <DataGrid Grid.Column="1"  ItemsSource="{Binding CustomerBets}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn 
-                    Header="Customer"
-                    Binding="{Binding CustomerId}"/>
-                
                 <DataGridTextColumn 
                     Header="Event"
                     Binding="{Binding EventCode}"/>

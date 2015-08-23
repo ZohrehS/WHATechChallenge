@@ -36,10 +36,26 @@ namespace WpfApplication1.ViewModels
         /// </summary>
         public override void RefreshData()
         {
-            List<CustomerBet> allCustomerBets = LoadData();
-            List<CustomerBet> unususalCustomerBets = allCustomerBets.Where(b => b.WinAmount > 0.6m*b.StakeAmount).ToList();
+            LoadKeyedCustomersData();
+            List<int> customers = KeyedCustomersData.Where(cb => cb.Value.Any(b => b.WinAmount > 0.6m * b.StakeAmount)).Select(c => c.Key).ToList();
+
+            Customers.Clear();
+            customers.ForEach(Customers.Add);
+            SelectedCustomer = customers.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Runs when selected customer is changed.
+        /// </summary>
+        protected override void OnSelectedCustomerChanged()
+        {
             CustomerBets.Clear();
-            unususalCustomerBets.ForEach(CustomerBets.Add);
+
+            if (KeyedCustomersData.ContainsKey(SelectedCustomer))
+            {
+                List<CustomerBet> unususalCustomerBets = KeyedCustomersData[SelectedCustomer].Where(b => b.WinAmount > 0.6m * b.StakeAmount).ToList();
+                unususalCustomerBets.ForEach(CustomerBets.Add);
+            }
         }
         #endregion
 

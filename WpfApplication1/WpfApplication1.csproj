@@ -56,10 +56,14 @@
     <Compile Include="Models\NotificationObject.cs" />
     <Compile Include="ViewModels\CustomersBetsViewModel.cs" />
     <Compile Include="ViewModels\UnusualSettledBetsViewModel.cs" />
-    <Compile Include="Views\UnusualSettledBets.xaml.cs">
-      <DependentUpon>UnusualSettledBets.xaml</DependentUpon>
+    <Compile Include="ViewModels\RiskyUnsettledBetsViewModel.cs" />
+    <Compile Include="Views\RiskyUnsettledBetsView.xaml.cs">
+      <DependentUpon>RiskyUnsettledBetsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Views\UnusualSettledBetsView.xaml.cs">
+      <DependentUpon>UnusualSettledBetsView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="WHATechChallengeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -68,11 +72,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helper\CsvObjectReader.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="WHATechChallengeView.xaml.cs">
+      <DependentUpon>WHATechChallengeView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\UnusualSettledBets.xaml">
+    <Page Include="Views\RiskyUnsettledBetsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UnusualSettledBetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

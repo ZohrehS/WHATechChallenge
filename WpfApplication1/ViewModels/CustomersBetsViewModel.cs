@@ -13,7 +13,10 @@ namespace WpfApplication1.ViewModels
     public abstract class CustomersBetsViewModel : NotificationObject
     {
         #region Fields
-        private ObservableCollection<CustomerBet> _customerBets = new ObservableCollection<CustomerBet>(); 
+        private readonly ObservableCollection<CustomerBet> _customerBets = new ObservableCollection<CustomerBet>();
+        private readonly ObservableCollection<int> _customers = new ObservableCollection<int>();
+        private Dictionary<int, List<CustomerBet>> _keyedCustomersData = new Dictionary<int, List<CustomerBet>>();
+        private int _selectedCustomer;
         #endregion
 
         #region Properties
@@ -28,16 +31,42 @@ namespace WpfApplication1.ViewModels
         public abstract string DataSourceFilePath { get; }
 
         /// <summary>
-        /// Gets or sets a list of customers' bets.
+        /// Gets a list of customers' bets.
         /// </summary>
         public ObservableCollection<CustomerBet> CustomerBets
         {
             get { return _customerBets; }
+        }
+
+        /// <summary>
+        /// Gets a list of customer IDs.
+        /// </summary>
+        public ObservableCollection<int> Customers
+        {
+            get { return _customers; }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected customer ID.
+        /// </summary>
+        public int SelectedCustomer
+        {
+            get { return _selectedCustomer; }
             set
             {
-                _customerBets = value;
-                OnPropertyChanged("CustomerBets");
+                _selectedCustomer = value;
+                OnPropertyChanged("SelectedCustomer");
+                OnSelectedCustomerChanged();
             }
+        }
+        #endregion
+
+        #region Protected Members
+
+        protected Dictionary<int, List<CustomerBet>> KeyedCustomersData
+        {
+            get { return _keyedCustomersData; }
+            private set { _keyedCustomersData = value; }
         }
         #endregion
 
@@ -49,13 +78,19 @@ namespace WpfApplication1.ViewModels
         #endregion
 
         #region Protected Methods
-         /// <summary>
-        /// Gets data from the source file.
+
+        /// <summary>
+        /// Runs when selected customer is changed.
         /// </summary>
-        protected virtual List<CustomerBet> LoadData()
+        protected abstract void OnSelectedCustomerChanged();
+
+        /// <summary>
+        /// Loads keyed customers data from the source file.
+        /// </summary>
+        protected virtual void LoadKeyedCustomersData()
         {
-            var list = CsvObjectReader.GetCustomerBets(DataSourceFilePath);
-            return list;
+            List<CustomerBet> list = CsvObjectReader.GetCustomerBets(DataSourceFilePath);
+            KeyedCustomersData = list.GroupBy(i => i.CustomerId).ToDictionary(i => i.Key, i => i.ToList());
         }
         #endregion
     }
